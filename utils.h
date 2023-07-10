@@ -10,7 +10,7 @@
 
 #include <cstdlib>
 
-// #define DEBUG
+//#define DEBUG
 
 namespace utils
 {
@@ -30,11 +30,18 @@ bool IsPositronPsMu(const double& PreShower, const double& MuonTrk)
 bool IsPionPsMu(const double& PreShower, const double& MuonTrk)
 {
   const int PScut = 1000;
+  const int PSpedestalcut = 500;
   const int MuonTrkcut = 300;
-  if (PreShower < PScut && MuonTrk < MuonTrkcut)
+  if (PreShower > PSpedestalcut && PreShower < PScut && MuonTrk < MuonTrkcut)
     return true;
   else
     return false;
+}
+
+//Returns true if pion has interacted in the central tower (dummy right now)
+bool HasPionInteracted(const double& SSiPMenergy, const double& Pionenergy)
+{
+    return (SSiPMenergy > (0.2*Pionenergy)) ? true : false;
 }
 
 // Return SiPM S position from index
@@ -111,12 +118,13 @@ bool IsSiPMSabovecut(const float svec[160], const double& cut)
 // Return true if event is in DWC radius
 bool IsDWCradius(double pos[2], const double& radiuscut, const std::array<double, 2>& offset)
 {
-  pos[0] = pos[0] + offset[0];
-  pos[1] = pos[1] + offset[1];
-  double radius = std::sqrt(pow(pos[0], 2.) + pow(pos[1], 2.));
+  double newpos[2]{};
+  newpos[0] = pos[0] + offset[0];
+  newpos[1] = pos[1] + offset[1];
+  double radius = std::sqrt(pow(newpos[0], 2.) + pow(newpos[1], 2.));
 
 #ifdef DEBUG
-  std::cout << "DWC" << DWCIdx << " radius " << radius << " mm." << std::endl;
+  std::cout << "DWC" << " radius " << radius << " mm." << std::endl;
 #endif
 
   return (radius < radiuscut) ? true : false;
