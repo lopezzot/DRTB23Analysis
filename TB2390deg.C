@@ -14,6 +14,7 @@
 #include <array>
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 ClassImp(EventOut);
 
@@ -24,6 +25,26 @@ struct AttenuatedEnergies
     double ErTotSiPMSene;
     double ErTotSiPMCene;
 };
+
+std::array<double, 2> GetDWCoffset(const int& DWCIdx)
+{
+
+  std::array<double, 2> DWCoffset{};
+  if (DWCIdx == 1) {  // DWC 1
+    DWCoffset[0] = 1.17;
+    DWCoffset[1] = -4.3;
+  }
+  else if (DWCIdx == 2) {  // DWC 2
+    DWCoffset[0] = 4.3;
+    DWCoffset[1] = 0.0;
+  }
+  else {
+    std::cout << "Wrong DWC index (1 or 2), going to std::abort()." << std::endl;
+    std::abort();
+  }
+
+  return DWCoffset;
+}
 
 AttenuatedEnergies DoAnalysis(TTree* tree, const int& runno);
 
@@ -107,8 +128,8 @@ AttenuatedEnergies DoAnalysis(TTree* tree, const int& runno)
                  // positrons
     double DWC1pos[2] = {pevtout->XDWC1, pevtout->YDWC1};
     double DWC2pos[2] = {pevtout->XDWC2, pevtout->YDWC2};
-    if (!(utils::IsDWCradius(DWC1pos, 10.0, 1))) continue;  // cut out-of-radius DWC1
-    if (!(utils::IsDWCradius(DWC2pos, 10.0, 2))) continue;  // cut out-of-radius DWC2
+    if (!(utils::IsDWCradius(DWC1pos, 10.0, GetDWCoffset(1)))) continue;  // cut out-of-radius DWC1
+    if (!(utils::IsDWCradius(DWC2pos, 10.0, GetDWCoffset(2)))) continue;  // cut out-of-radius DWC2
     if (!(utils::IsSiPMSabovecut(pevtout->SiPMPheS, 0.1)))
       continue;  // cut SiPMSene < 0.1 GeV events
 

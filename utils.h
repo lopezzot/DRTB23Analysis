@@ -26,6 +26,17 @@ bool IsPositronPsMu(const double& PreShower, const double& MuonTrk)
     return false;
 }
 
+// Return true for pi+ using PreShower and MuonCounter only
+bool IsPionPsMu(const double& PreShower, const double& MuonTrk)
+{
+  const int PScut = 1000;
+  const int MuonTrkcut = 300;
+  if (PreShower < PScut && MuonTrk < MuonTrkcut)
+    return true;
+  else
+    return false;
+}
+
 // Return SiPM S position from index
 double* ScinSiPMmap(const int& index)
 {
@@ -98,24 +109,10 @@ bool IsSiPMSabovecut(const float svec[160], const double& cut)
 }
 
 // Return true if event is in DWC radius
-bool IsDWCradius(double pos[2], const double& radiuscut, const int& DWCIdx)
+bool IsDWCradius(double pos[2], const double& radiuscut, const std::array<double, 2>& offset)
 {
-  double xoffset = 0.;
-  double yoffset = 0.;
-  if (DWCIdx == 1) {  // DWC 1
-    xoffset = 1.17;
-    yoffset = -4.3;
-  }
-  else if (DWCIdx == 2) {  // DWC 2
-    xoffset = 4.3;
-    yoffset = 0.0;
-  }
-  else {
-    std::cout << "Wrong DWC index (1 or 2), going to std::abort()." << std::endl;
-    std::abort();
-  }
-  pos[0] = pos[0] + xoffset;
-  pos[1] = pos[1] + yoffset;
+  pos[0] = pos[0] + offset[0];
+  pos[1] = pos[1] + offset[1];
   double radius = std::sqrt(pow(pos[0], 2.) + pow(pos[1], 2.));
 
 #ifdef DEBUG
