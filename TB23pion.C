@@ -11,22 +11,23 @@
 #include "PhysicsEvent.h"
 #include "utils.h"
 
+#include <algorithm>
 #include <array>
 #include <iostream>
 #include <string>
-#include<algorithm>
 
 ClassImp(EventOut);
 
-struct outputAnalysis {
-    double RatioSenergy; double ErRatioSenergy;
+struct outputAnalysis
+{
+    double RatioSenergy;
+    double ErRatioSenergy;
 };
 
 outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy);
 
 std::array<double, 2> GetDWCoffset(const int& DWCIdx)
 {
-
   std::array<double, 2> DWCoffset{};
   if (DWCIdx == 1) {  // DWC 1
     DWCoffset[0] = +1.351;
@@ -56,7 +57,7 @@ void TB23pion()
   // corresponding energies as doubles
   std::array<double, 4> Denergies{};
   std::transform(energies.begin(), energies.end(), Denergies.begin(),
-          [](int value) { return static_cast<double>(value); } );
+                 [](int value) { return static_cast<double>(value); });
   // energies errors (0)
   const std::array<double, 4> Erenergies{};
   // path to files + filename
@@ -94,7 +95,14 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
   // SiPM histos
   TH1F H1SiPMSene{"H1SiPMSene", "H1SiPMSene", 100, 0., static_cast<double>(energy)};
   TH1F H1SiPMCene{"H1SiPMCene", "H1SiPMCene", 100, 0., static_cast<double>(energy)};
-  TH2F H2SiPMSCene{"H2SiPMSCene", "H2SiPMSCene", 100, 0., static_cast<double>(energy), 100, 0., static_cast<double>(energy)};
+  TH2F H2SiPMSCene{"H2SiPMSCene",
+                   "H2SiPMSCene",
+                   100,
+                   0.,
+                   static_cast<double>(energy),
+                   100,
+                   0.,
+                   static_cast<double>(energy)};
   // PMT histos
   TH1F H1PMTSene{"H1PMTSene", "H1PMTSene", 100, 0., static_cast<double>(energy)};
   // Energy ratio histos
@@ -114,8 +122,7 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
   for (int evtno = 0; evtno < tree->GetEntries(); evtno++) {
     tree->GetEntry(evtno);
     // filter events
-    if (!(utils::IsPionPsMu(pevtout->PShower, pevtout->MCounter)))
-      continue;  // select pions
+    if (!(utils::IsPionPsMu(pevtout->PShower, pevtout->MCounter))) continue;  // select pions
     double DWC1pos[2] = {pevtout->XDWC1, pevtout->YDWC1};
     double DWC2pos[2] = {pevtout->XDWC2, pevtout->YDWC2};
     if (!(utils::IsDWCradius(DWC1pos, 10.0, GetDWCoffset(1)))) continue;  // cut out-of-radius DWC1
@@ -131,10 +138,10 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
     H2SiPMSCene.Fill(pevtout->totSiPMSene, pevtout->totSiPMCene);
     H1PMTSene.Fill(pevtout->SPMTenergy);
     // Energy ratio histos
-    H1RatioS.Fill(pevtout->totSiPMSene/(pevtout->totSiPMSene+pevtout->SPMTenergy));
+    H1RatioS.Fill(pevtout->totSiPMSene / (pevtout->totSiPMSene + pevtout->SPMTenergy));
     // geometry histos
-    H2DWC1.Fill(pevtout->XDWC1+GetDWCoffset(1)[0], pevtout->YDWC1+GetDWCoffset(1)[1]);
-    H2DWC2.Fill(pevtout->XDWC2+GetDWCoffset(2)[0], pevtout->YDWC2+GetDWCoffset(2)[1]);
+    H2DWC1.Fill(pevtout->XDWC1 + GetDWCoffset(1)[0], pevtout->YDWC1 + GetDWCoffset(1)[1]);
+    H2DWC2.Fill(pevtout->XDWC2 + GetDWCoffset(2)[0], pevtout->YDWC2 + GetDWCoffset(2)[1]);
     double* sbar = utils::GetScinbar(pevtout->SiPMPheS);
     double* cbar = utils::GetCherbar(pevtout->SiPMPheC);
     H2SiPMSbar.Fill(sbar[0], sbar[1]);

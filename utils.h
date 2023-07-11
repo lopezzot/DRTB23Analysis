@@ -10,7 +10,7 @@
 
 #include <cstdlib>
 
-//#define DEBUG
+// #define DEBUG
 
 namespace utils
 {
@@ -38,10 +38,10 @@ bool IsPionPsMu(const double& PreShower, const double& MuonTrk)
     return false;
 }
 
-//Returns true if pion has interacted in the central tower (dummy right now)
+// Returns true if pion has interacted in the central tower (dummy right now)
 bool HasPionInteracted(const double& SSiPMenergy, const double& Pionenergy)
 {
-    return (SSiPMenergy > (0.2*Pionenergy)) ? true : false;
+  return (SSiPMenergy > (0.2 * Pionenergy)) ? true : false;
 }
 
 // Return SiPM S position from index
@@ -124,7 +124,8 @@ bool IsDWCradius(double pos[2], const double& radiuscut, const std::array<double
   double radius = std::sqrt(pow(newpos[0], 2.) + pow(newpos[1], 2.));
 
 #ifdef DEBUG
-  std::cout << "DWC" << " radius " << radius << " mm." << std::endl;
+  std::cout << "DWC"
+            << " radius " << radius << " mm." << std::endl;
 #endif
 
   return (radius < radiuscut) ? true : false;

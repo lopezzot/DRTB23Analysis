@@ -12,9 +12,9 @@
 #include "utils.h"
 
 #include <array>
+#include <cstdlib>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 ClassImp(EventOut);
 
@@ -28,7 +28,6 @@ struct AttenuatedEnergies
 
 std::array<double, 2> GetDWCoffset(const int& DWCIdx)
 {
-
   std::array<double, 2> DWCoffset{};
   if (DWCIdx == 1) {  // DWC 1
     DWCoffset[0] = 1.17;
