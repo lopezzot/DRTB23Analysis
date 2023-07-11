@@ -14,18 +14,15 @@
 #include <array>
 #include <iostream>
 #include <string>
+#include<algorithm>
 
 ClassImp(EventOut);
 
-struct AttenuatedEnergies
-{
-    double TotSiPMSene;
-    double TotSiPMCene;
-    double ErTotSiPMSene;
-    double ErTotSiPMCene;
+struct outputAnalysis {
+    double RatioSenergy; double ErRatioSenergy;
 };
 
-void DoAnalysis(TTree* tree, const int& runno, const int& energy);
+outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy);
 
 std::array<double, 2> GetDWCoffset(const int& DWCIdx)
 {
@@ -56,8 +53,18 @@ void TB23pion()
   const std::array<int, 4> runNumbers{247, 246, 245, 244};
   // corresponding energies (GeV)
   const std::array<int, 4> energies{20, 60, 100, 180};
+  // corresponding energies as doubles
+  std::array<double, 4> Denergies{};
+  std::transform(energies.begin(), energies.end(), Denergies.begin(),
+          [](int value) { return static_cast<double>(value); } );
+  // energies errors (0)
+  const std::array<double, 4> Erenergies{};
   // path to files + filename
   const std::string path("recoNtuple/physics_sps2023_run");
+  // ratios of S energy central tower to all towers
+  std::array<double, 4> ratioS{};
+  // error on ratios of S energy central tower to all towers
+  std::array<double, 4> erratioS{};
 
   // loop through runs
   for (int runno = 0; runno < 4; runno++) {
@@ -65,29 +72,22 @@ void TB23pion()
     std::cout << "Using file: " << pathFile << std::endl;
     TFile file{pathFile.c_str()};
     TTree* tree = static_cast<TTree*>(file.Get("Ftree"));
-    DoAnalysis(tree, runNumbers[runno], energies[runno]);
+    outputAnalysis output = DoAnalysis(tree, runNumbers[runno], energies[runno]);
+    ratioS[runno] = output.RatioSenergy;
+    erratioS[runno] = output.ErRatioSenergy;
   }
 
-  /*TGraphErrors GrAttenuationsipms{5, realdistances.data(), sipmsenergyatdist.data(), erdist.data(),
-                                  ersipmsenergyatdist.data()};
+  TGraphErrors GrRatioS{4, Denergies.data(), ratioS.data(), Erenergies.data(), erratioS.data()};
   //.data() converts from std::array to array
-  GrAttenuationsipms.SetTitle(
-    "Attenuation SiPMSenergy;Distance to readout (mm);SiPM_S signal (GeV)");
-  GrAttenuationsipms.SetName("AttSSiPM");
-  TGraphErrors GrAttenuationsipmc{5, realdistances.data(), sipmcenergyatdist.data(), erdist.data(),
-                                  ersipmcenergyatdist.data()};
-  //.data() converts from std::array to array
-  GrAttenuationsipmc.SetTitle(
-    "Attenuation SiPMCenergy;Distance to readout (mm);SiPM_C signal (GeV)");
-  GrAttenuationsipmc.SetName("AttCSiPM");
+  GrRatioS.SetTitle("Central Tower S signal ratio;Beam energy (GeV);S ratio");
+  GrRatioS.SetName("RatioS");
 
-  TFile* FinalFile(TFile::Open("Attenuation.root", "RECREATE"));
-  GrAttenuationsipms.Write();
-  GrAttenuationsipmc.Write();
-  FinalFile->Close();*/
+  TFile* FinalFile(TFile::Open("Pions.root", "RECREATE"));
+  GrRatioS.Write();
+  FinalFile->Close();
 }
 
-void DoAnalysis(TTree* tree, const int& runno, const int& energy)
+outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
 {
   TFile* analysisFile(
     TFile::Open(("AnalysisRun_" + std::to_string(runno) + ".root").c_str(), "RECREATE"));
@@ -160,8 +160,8 @@ void DoAnalysis(TTree* tree, const int& runno, const int& energy)
   H2SiPMCbar.Write();
   analysisFile->Close();
 
-  //AttenuatedEnergies attene{SiPMSene, SiPMCene, ErSiPMSene, ErSiPMCene};
-  //return attene;
+  outputAnalysis out{H1RatioS.GetMean(), H1RatioS.GetMeanError()};
+  return out;
 }
 
 //**************************************************
