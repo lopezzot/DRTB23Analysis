@@ -22,6 +22,10 @@ struct outputAnalysis
 {
     double RatioSenergy;
     double ErRatioSenergy;
+    double Senergy;
+    double ErSenergy;
+    double Cenergy;
+    double ErCenergy;
 };
 
 outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy);
@@ -66,6 +70,14 @@ void TB23pion()
   std::array<double, 4> ratioS{};
   // error on ratios of S energy central tower to all towers
   std::array<double, 4> erratioS{};
+  // S energy all towers
+  std::array<double, 4> Senergy{};
+  // error S energy all towers
+  std::array<double, 4> ErSenergy{};
+  // C energy all towers
+  std::array<double, 4> Cenergy{};
+  // error C energy all towers
+  std::array<double, 4> ErCenergy{};
 
   // loop through runs
   for (int runno = 0; runno < 4; runno++) {
@@ -76,6 +88,10 @@ void TB23pion()
     outputAnalysis output = DoAnalysis(tree, runNumbers[runno], energies[runno]);
     ratioS[runno] = output.RatioSenergy;
     erratioS[runno] = output.ErRatioSenergy;
+    Senergy[runno] = output.Senergy;
+    ErSenergy[runno] = output.ErSenergy;
+    Cenergy[runno] = output.Cenergy;
+    ErCenergy[runno] = output.ErCenergy;
   }
 
   TGraphErrors GrRatioS{4, Denergies.data(), ratioS.data(), Erenergies.data(), erratioS.data()};
@@ -83,8 +99,18 @@ void TB23pion()
   GrRatioS.SetTitle("Central Tower S signal ratio;Beam energy (GeV);S ratio");
   GrRatioS.SetName("RatioS");
 
+  TGraphErrors GrSenergy{4, Denergies.data(), Senergy.data(), Erenergies.data(), ErSenergy.data()};
+  GrSenergy.SetTitle("Scintillation;Beam energy (GeV);Signal S (GeV)");
+  GrSenergy.SetName("Senergy");
+
+  TGraphErrors GrCenergy{4, Denergies.data(), Cenergy.data(), Erenergies.data(), ErCenergy.data()};
+  GrCenergy.SetTitle("Cherenkov;Beam energy (GeV);Signal C (GeV)");
+  GrCenergy.SetName("Cenergy");
+
   TFile* FinalFile(TFile::Open("Pions.root", "RECREATE"));
   GrRatioS.Write();
+  GrSenergy.Write();
+  GrCenergy.Write();
   FinalFile->Close();
 }
 
@@ -105,6 +131,9 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
                    static_cast<double>(energy)};
   // PMT histos
   TH1F H1PMTSene{"H1PMTSene", "H1PMTSene", 100, 0., static_cast<double>(energy)};
+  // PMT+SiPM histos
+  TH1F H1Sene{"H1Sene", "H1Sene", 100, 0., 1.1 * static_cast<double>(energy)};
+  TH1F H1Cene{"H1Cene", "H1Cene", 100, 0., 1.1 * static_cast<double>(energy)};
   // Energy ratio histos
   TH1F H1RatioS{"H1RatioS", "H1RatioS", 100, 0., 1.3};
   // Geometry histos
@@ -137,6 +166,8 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
     H1SiPMCene.Fill(pevtout->totSiPMCene);
     H2SiPMSCene.Fill(pevtout->totSiPMSene, pevtout->totSiPMCene);
     H1PMTSene.Fill(pevtout->SPMTenergy);
+    H1Sene.Fill(pevtout->totSiPMSene + pevtout->SPMTenergy);
+    H1Cene.Fill(pevtout->totSiPMCene + pevtout->CPMTenergy);
     // Energy ratio histos
     H1RatioS.Fill(pevtout->totSiPMSene / (pevtout->totSiPMSene + pevtout->SPMTenergy));
     // geometry histos
@@ -148,18 +179,16 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
     H2SiPMCbar.Fill(cbar[0], cbar[1]);
   }
 
-  double SiPMSene = H1SiPMSene.GetMean();
-  double SiPMCene = H1SiPMCene.GetMean();
-  double ErSiPMSene = H1SiPMSene.GetMeanError();
-  double ErSiPMCene = H1SiPMCene.GetMeanError();
   std::cout << "--->" << tree->GetEntries() << " evts, " << evtcounter
-            << " selected, average SiPMene S: " << SiPMSene << " C: " << SiPMCene << " GeV"
-            << std::endl;
+            << " selected, average SiPMene S: " << H1SiPMSene.GetMean()
+            << " C: " << H1SiPMCene.GetMean() << " GeV" << std::endl;
 
   H1SiPMSene.Write();
   H1SiPMCene.Write();
   H2SiPMSCene.Write();
   H1PMTSene.Write();
+  H1Sene.Write();
+  H1Cene.Write();
   H1RatioS.Write();
   H2DWC1.Write();
   H2DWC2.Write();
@@ -167,7 +196,8 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
   H2SiPMCbar.Write();
   analysisFile->Close();
 
-  outputAnalysis out{H1RatioS.GetMean(), H1RatioS.GetMeanError()};
+  outputAnalysis out{H1RatioS.GetMean(),    H1RatioS.GetMeanError(), H1Sene.GetMean(),
+                     H1Sene.GetMeanError(), H1Cene.GetMean(),        H1Cene.GetMeanError()};
   return out;
 }
 
