@@ -117,7 +117,7 @@ void TB23pion()
 outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy)
 {
   TFile* analysisFile(
-    TFile::Open(("AnalysisRun_" + std::to_string(runno) + ".root").c_str(), "RECREATE"));
+    TFile::Open(("AnalysispionRun_" + std::to_string(runno) + ".root").c_str(), "RECREATE"));
   // SiPM histos
   TH1F H1SiPMSene{"H1SiPMSene", "H1SiPMSene", 100, 0., static_cast<double>(energy)};
   TH1F H1SiPMCene{"H1SiPMCene", "H1SiPMCene", 100, 0., static_cast<double>(energy)};
