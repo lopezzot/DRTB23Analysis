@@ -29,8 +29,13 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
 void TB23Shape()
 {
   const double cutradius = 5.0;  // mm
-
-  DoAnalysis("277", cutradius, 40);
+  
+  // Energy scan e+ 2.5deg vertical, 1.5deg orizoonthal, PShower in
+  DoAnalysis("185", cutradius, 20);
+  DoAnalysis("186", cutradius, 40);
+  DoAnalysis("187", cutradius, 60);
+  DoAnalysis("188", cutradius, 80);
+  DoAnalysis("189", cutradius, 100);
 }
 
 void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
@@ -49,7 +54,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   TFile* analysisFile = TFile::Open(
     ("AnalysisShape_" + RunNo + "_" + std::to_string(beamene) + "GeV.root").c_str(), "RECREATE");
 
-  const int points = 30;  // em shape samplings
+  const int points = 25;  // em shape samplings
   int pitch = 1.;  // bin distance (mm)
 
   // Prepare for analysis (Scintillation)
@@ -72,7 +77,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   double radii[points]{};  // radii for x-axis
   double radiier[points]{};
   std::fill(radiier, radiier + points, 0.5);  // 0.5 uncertanty for x-bin
-  TH2F Slateralh2{"Slateral", "Slateral", 35, 0., 35., 1000, 0., 0.5};
+  TH2F Slateralh2{"Slateral", "Slateral", 25, 0., 25., 1000, 0., 0.5};
 
   // Prepare for analysis (Cherenkov)
   double cradialprof[points]{};
@@ -91,11 +96,15 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
     n.SetBins(100, 0., 100.);
   }
   double ccumulativeprof[points]{};
-  TH2F Clateralh2{"Clateral", "Clateral", 35, 0., 35., 1000, 0., 0.5};
+  TH2F Clateralh2{"Clateral", "Clateral", 25, 0., 25., 1000, 0., 0.5};
 
   int cutentries = 0;  // evets after cuts
   double totS = 0.;  // total event SiPM S signal
   double totC = 0.;  // total event SiPM C signal
+  
+  // SiPMs barycenter plots
+  TH2F H2SiPMSbar{"SiPMSbar", "SiPMSbar", 400, -20., 40., 400, -20, 40};
+  TH2F H2SiPMCbar{"SiPMCbar", "SiPMcbar", 400, -20., 40., 400, -20, 40};
 
   // Loop over events
   for (unsigned int i = 0; i < tree->GetEntries(); i++) {
@@ -116,6 +125,8 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
     }
     auto sbar = utils::GetScinbar(pevtout->SiPMPheS);
     auto cbar = utils::GetCherbar(pevtout->SiPMPheC);
+    H2SiPMSbar.Fill(sbar[0], sbar[1]);
+    H2SiPMCbar.Fill(cbar[0], cbar[1]);
 
     // Loop over SiPMs
     for (unsigned int index = 0; index < 160; index++) {
@@ -165,6 +176,10 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   cout << "-->entries: " << tree->GetEntries() << " used: " << cutentries << endl;
 
   analysisFile->cd();
+  
+  // Write auxiliary detectors plots
+  H2SiPMSbar.Write();
+  H2SiPMCbar.Write();
 
   // Finalize H2 scatter plots
   Slateralh2.GetXaxis()->SetTitle("Distance from shower axis [mm]");
@@ -192,6 +207,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   cprof->SetMarkerColor(4);
   cprof->SetLineColor(4);
   cprof->Write();
+
   // Finalize radial profiles
   for (unsigned int i = 0; i < points; i++) {
     radprofh1[i].Write();
