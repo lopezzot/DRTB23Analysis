@@ -123,8 +123,7 @@ AttenuatedEnergies DoAnalysis(TTree* tree, const int& runno)
     tree->GetEntry(evtno);
     // filter events
     if (!(utils::IsPositronPsMu(pevtout->PShower, pevtout->MCounter)))
-      continue;  // select
-                 // positrons
+      continue;  // select positrons
     double DWC1pos[2] = {pevtout->XDWC1, pevtout->YDWC1};
     double DWC2pos[2] = {pevtout->XDWC2, pevtout->YDWC2};
     if (!(utils::IsDWCradius(DWC1pos, 10.0, GetDWCoffset(1)))) continue;  // cut out-of-radius DWC1

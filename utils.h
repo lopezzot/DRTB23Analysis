@@ -109,6 +109,14 @@ double* GetCherbar(const float cvec[160])
   return Cbar;
 }
 
+// Return distance between two (x,y) points (e.g. fiber distance to baricenter)
+double Getdist(double pos[2], double bar[2])
+{
+  double radius = std::sqrt(pow(pos[0] - bar[0], 2.) + pow(pos[1] - bar[1], 2.));
+
+  return radius;
+}
+
 // Return true is total S SiPM energy is above cut
 bool IsSiPMSabovecut(const float svec[160], const double& cut)
 {
