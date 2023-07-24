@@ -31,11 +31,19 @@ void TB23Shape()
   const double cutradius = 5.0;  // mm
   
   // Energy scan e+ 2.5deg vertical, 1.5deg orizoonthal, PShower in
-  DoAnalysis("185", cutradius, 20);
+  /*DoAnalysis("185", cutradius, 20);
   DoAnalysis("186", cutradius, 40);
   DoAnalysis("187", cutradius, 60);
   DoAnalysis("188", cutradius, 80);
-  DoAnalysis("189", cutradius, 100);
+  DoAnalysis("189", cutradius, 100);*/
+
+  //Angular scan 20 GeV e+ 2.5deg vertical
+  DoAnalysis("114", cutradius, 20);
+  DoAnalysis("112", cutradius, 20);
+  DoAnalysis("119", cutradius, 20);
+  DoAnalysis("120", cutradius, 20);
+  DoAnalysis("122", cutradius, 20);
+
 }
 
 void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
