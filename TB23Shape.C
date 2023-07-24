@@ -224,97 +224,95 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   }
 
   // Scintillation radial and cumulative profile graph
-  auto Gr2 = new TGraphErrors(points, radii, radialprof, radiier, radialprofer);
-  Gr2->SetTitle("radialprof");
-  Gr2->SetName("radialprof");
-  Gr2->GetXaxis()->SetTitle("Distance from shower axis [mm]");
-  Gr2->GetYaxis()->SetTitle("Percentage of SiPM signal in 1 mm thick radial shell");
-  Gr2->SetMarkerStyle(20);
-  Gr2->SetMarkerColor(2);
-  Gr2->SetLineColor(2);
-  Gr2->Write();
-  auto Gr3 = new TGraph(points, radii, cumulativeprof);
-  Gr3->SetTitle("cumulativeprof");
-  Gr3->SetName("cumulativeprof");
-  Gr3->GetXaxis()->SetTitle("Radius of cylinder around shower axis [mm]");
-  Gr3->GetYaxis()->SetTitle("Percentage of SiPM signal");
-  Gr3->SetMarkerStyle(20);
-  Gr3->SetMarkerColor(2);
-  Gr3->SetLineColor(2);
-  Gr3->Write();
+  TGraphErrors Gr2{points, radii, radialprof, radiier, radialprofer};
+  Gr2.SetTitle("radialprof");
+  Gr2.SetName("radialprof");
+  Gr2.GetXaxis()->SetTitle("Distance from shower axis [mm]");
+  Gr2.GetYaxis()->SetTitle("Percentage of SiPM signal in 1 mm thick radial shell");
+  Gr2.SetMarkerStyle(20);
+  Gr2.SetMarkerColor(2);
+  Gr2.SetLineColor(2);
+  Gr2.Write();
+  TGraph Gr3{points, radii, cumulativeprof};
+  Gr3.SetTitle("cumulativeprof");
+  Gr3.SetName("cumulativeprof");
+  Gr3.GetXaxis()->SetTitle("Radius of cylinder around shower axis [mm]");
+  Gr3.GetYaxis()->SetTitle("Percentage of SiPM signal");
+  Gr3.SetMarkerStyle(20);
+  Gr3.SetMarkerColor(2);
+  Gr3.SetLineColor(2);
+  Gr3.Write();
 
   // Cherenkov radial and cumulative profile graph
-  auto CGr2 = new TGraphErrors(points, radii, cradialprof, radiier, cradialprofer);
-  CGr2->SetTitle("cherradialprof");
-  CGr2->SetName("cherradialprof");
-  CGr2->GetXaxis()->SetTitle("Distance from shower axis [mm]");
-  CGr2->GetYaxis()->SetTitle("Percentage of SiPM signal in 1 mm thick radial shell");
-  CGr2->SetMarkerStyle(23);
-  CGr2->SetMarkerColor(4);
-  CGr2->SetLineColor(4);
-  CGr2->Write();
-  auto CGr3 = new TGraph(points, radii, ccumulativeprof);
-  CGr3->SetTitle("chercumulativeprof");
-  CGr3->SetName("chercumulativeprof");
-  CGr3->GetXaxis()->SetTitle("Radius of cylinder around shower axis [mm]");
-  CGr3->GetYaxis()->SetTitle("Percentage of SiPM signal");
-  CGr3->SetMarkerStyle(23);
-  CGr3->SetMarkerColor(4);
-  CGr3->SetLineColor(4);
-  CGr3->Write();
+  TGraphErrors CGr2{points, radii, cradialprof, radiier, cradialprofer};
+  CGr2.SetTitle("cherradialprof");
+  CGr2.SetName("cherradialprof");
+  CGr2.GetXaxis()->SetTitle("Distance from shower axis [mm]");
+  CGr2.GetYaxis()->SetTitle("Percentage of SiPM signal in 1 mm thick radial shell");
+  CGr2.SetMarkerStyle(23);
+  CGr2.SetMarkerColor(4);
+  CGr2.SetLineColor(4);
+  CGr2.Write();
+  TGraph CGr3{points, radii, ccumulativeprof};
+  CGr3.SetTitle("chercumulativeprof");
+  CGr3.SetName("chercumulativeprof");
+  CGr3.GetXaxis()->SetTitle("Radius of cylinder around shower axis [mm]");
+  CGr3.GetYaxis()->SetTitle("Percentage of SiPM signal");
+  CGr3.SetMarkerStyle(23);
+  CGr3.SetMarkerColor(4);
+  CGr3.SetLineColor(4);
+  CGr3.Write();
 
   // Canvas with lateral profiles (C and S)
-  auto C1laterals = new TCanvas("lateralprofs", "lateralprofs", 600, 600);
+  TCanvas C1laterals{"lateralprofs", "lateralprofs", 600, 600};
   sprof->GetYaxis()->SetRangeUser(0., 0.09);
   sprof->SetTitle("");
   sprof->SetStats(0.);
   sprof->Draw("");
   cprof->Draw("same P");
-  auto C1lateralslegend = new TLegend(1. - 0.18, 0.7, 1. - 0.61, 0.89);
-  C1lateralslegend->AddEntry(
+  TLegend C1lateralslegend{1. - 0.18, 0.7, 1. - 0.61, 0.89};
+  C1lateralslegend.AddEntry(
     sprof, ("CERN SPS: Scintillation " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(),
     "ep");
-  C1lateralslegend->AddEntry(
+  C1lateralslegend.AddEntry(
     cprof, ("CERN SPS: Cherenkov " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
-  C1lateralslegend->Draw("same");
-  C1laterals->SetLeftMargin(0.15);
-  C1laterals->Write();
-  delete C1laterals;
+  C1lateralslegend.Draw("same");
+  C1laterals.SetLeftMargin(0.15);
+  C1laterals.Write();
 
   // Canvas with radial profiles (C and S)
-  auto C1radials = new TCanvas("radialprofs", "radialprofs", 600, 600);
-  Gr2->GetHistogram()->SetMinimum(0.);
-  Gr2->GetHistogram()->SetMaximum(0.18);
-  Gr2->SetTitle("");
-  Gr2->Draw("APL");
-  CGr2->Draw("same PL");
-  auto C1radialslegend = new TLegend(1. - 0.18, 0.7, 1. - 0.61, 0.89);
-  C1radialslegend->AddEntry(
-    Gr2, ("CERN SPS: Scintillation " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
-  C1radialslegend->AddEntry(
-    CGr2, ("CERN SPS: Cherenkov " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
-  C1radialslegend->Draw("same");
-  C1radials->SetLeftMargin(0.15);
-  C1radials->Write();
-  delete C1radials;
+  TCanvas C1radials{"radialprofs", "radialprofs", 600, 600};
+  Gr2.GetHistogram()->SetMinimum(0.);
+  Gr2.GetHistogram()->SetMaximum(0.18);
+  Gr2.SetTitle("");
+  Gr2.Draw("APL");
+  CGr2.Draw("same PL");
+  TLegend C1radialslegend{1. - 0.18, 0.7, 1. - 0.61, 0.89};
+  C1radialslegend.AddEntry(
+    &Gr2, ("CERN SPS: Scintillation " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
+  C1radialslegend.AddEntry(
+    &CGr2, ("CERN SPS: Cherenkov " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
+  C1radialslegend.Draw("same");
+  C1radials.SetLeftMargin(0.15);
+  C1radials.Write();
 
   // Canvas with cumulative profiles (C and S)
-  auto C1cumulatives = new TCanvas("cumulativeprofs", "cumulativeprofs", 600, 600);
-  Gr3->GetHistogram()->SetMinimum(0.);
-  Gr3->GetHistogram()->SetMaximum(1.1);
-  Gr3->SetTitle("");
-  Gr3->Draw("APL");
-  CGr3->Draw("same PL");
-  auto C1cumulativelegend = new TLegend(1. - 0.18, 0.7, 1. - 0.61, 0.89);
-  C1cumulativelegend->AddEntry(
-    Gr3, ("CERN SPS: Scintillation " + std::to_string(beamene) + " GeV e+, Run" + RunNo).c_str(),
+  TCanvas C1cumulatives{"cumulativeprofs", "cumulativeprofs", 600, 600};
+  Gr3.GetHistogram()->SetMinimum(0.);
+  Gr3.GetHistogram()->SetMaximum(1.1);
+  Gr3.SetTitle("");
+  Gr3.Draw("APL");
+  CGr3.Draw("same PL");
+  TLegend C1cumulativelegend{1. - 0.18, 0.7, 1. - 0.61, 0.89};
+  C1cumulativelegend.AddEntry(
+    &Gr3, ("CERN SPS: Scintillation " + std::to_string(beamene) + " GeV e+, Run" + RunNo).c_str(),
     "ep");
-  C1cumulativelegend->AddEntry(
-    CGr3, ("CERN SPS: Cherenkov " + std::to_string(beamene) + " GeV e+, Run " + RunNo).c_str(),
+  C1cumulativelegend.AddEntry(
+    &CGr3, ("CERN SPS: Cherenkov " + std::to_string(beamene) + " GeV e+, Run " + RunNo).c_str(),
     "ep");
-  C1cumulativelegend->Draw("same");
-  C1cumulatives->SetLeftMargin(0.15);
-  C1cumulatives->Write();
+  C1cumulativelegend.Draw("same");
+  C1cumulatives.SetLeftMargin(0.15);
+  C1cumulatives.Write();
 
   analysisFile->Close();
 }
