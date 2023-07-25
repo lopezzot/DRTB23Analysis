@@ -29,7 +29,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
 void TB23Shape()
 {
   const double cutradius = 5.0;  // mm
-  
+
   // Energy scan e+ 2.5deg vertical, 1.5deg orizoonthal, PShower in
   /*DoAnalysis("185", cutradius, 20);
   DoAnalysis("186", cutradius, 40);
@@ -37,13 +37,24 @@ void TB23Shape()
   DoAnalysis("188", cutradius, 80);
   DoAnalysis("189", cutradius, 100);*/
 
-  //Angular scan 20 GeV e+ 2.5deg vertical
-  DoAnalysis("114", cutradius, 20);
+  // Angular scan 20 GeV e+ 2.5deg vertical
+  /*DoAnalysis("114", cutradius, 20);
   DoAnalysis("112", cutradius, 20);
   DoAnalysis("119", cutradius, 20);
   DoAnalysis("120", cutradius, 20);
-  DoAnalysis("122", cutradius, 20);
+  DoAnalysis("122", cutradius, 20);*/
 
+  // Angular scan 20 GeV e+ 0.0deg vertical
+  DoAnalysis("255", cutradius, 20);  // 5.0deg
+  DoAnalysis("254", cutradius, 20);  // 4.0deg
+  DoAnalysis("253", cutradius, 20);  // 3.0deg
+  DoAnalysis("252", cutradius, 20);  // 2.0deg
+  DoAnalysis("251", cutradius, 20);  // 1.5deg
+  DoAnalysis("256", cutradius, 20);  // 1.0deg
+  DoAnalysis("257", cutradius, 20);  // 0.5deg
+  DoAnalysis("258", cutradius, 20);  // 0.0deg
+  DoAnalysis("266", cutradius, 20);  // -2.0deg
+  DoAnalysis("269", cutradius, 20);  // -5.0deg
 }
 
 void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
@@ -109,7 +120,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   int cutentries = 0;  // evets after cuts
   double totS = 0.;  // total event SiPM S signal
   double totC = 0.;  // total event SiPM C signal
-  
+
   // SiPMs barycenter plots
   TH2F H2SiPMSbar{"SiPMSbar", "SiPMSbar", 400, -20., 40., 400, -20, 40};
   TH2F H2SiPMCbar{"SiPMCbar", "SiPMcbar", 400, -20., 40., 400, -20, 40};
@@ -184,7 +195,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   cout << "-->entries: " << tree->GetEntries() << " used: " << cutentries << endl;
 
   analysisFile->cd();
-  
+
   // Write auxiliary detectors plots
   H2SiPMSbar.Write();
   H2SiPMCbar.Write();
@@ -313,7 +324,8 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
   CGr2.Draw("same PL");
   TLegend C1radialslegend{1. - 0.18, 0.7, 1. - 0.61, 0.89};
   C1radialslegend.AddEntry(
-    &Gr2, ("CERN SPS: Scintillation " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
+    &Gr2, ("CERN SPS: Scintillation " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(),
+    "ep");
   C1radialslegend.AddEntry(
     &CGr2, ("CERN SPS: Cherenkov " + to_string(beamene) + " GeV e+, Run " + RunNo).c_str(), "ep");
   C1radialslegend.Draw("same");
