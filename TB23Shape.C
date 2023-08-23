@@ -6,8 +6,8 @@
 // \start date: 24 July 2023
 //**************************************************
 
-// Usage: root TB23Shape.C
-
+// Usage: root TB23Shape.C (same as root 'TB23Shape.C(false)')
+//    or: root 'TB23Shape.C(true)'
 #include "PhysicsEvent.h"
 #include "utils.h"
 #include <TFile.h>
@@ -24,10 +24,11 @@
 
 ClassImp(EventOut);
 
-void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene);
+void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC);
 
-void TB23Shape()
+void TB23Shape(const bool isMC=false)
 {
+  std::cout<<"running with isMC="<<isMC<<std::endl;
   const double cutradius = 5.0;  // mm
 
   // Energy scan e+ 2.5deg vertical, 1.5deg orizoonthal, PShower in
@@ -45,19 +46,19 @@ void TB23Shape()
   DoAnalysis("122", cutradius, 20);*/
 
   // Angular scan 20 GeV e+ 0.0deg vertical
-  DoAnalysis("255", cutradius, 20);  // 5.0deg
-  DoAnalysis("254", cutradius, 20);  // 4.0deg
-  DoAnalysis("253", cutradius, 20);  // 3.0deg
-  DoAnalysis("252", cutradius, 20);  // 2.0deg
-  DoAnalysis("251", cutradius, 20);  // 1.5deg
-  DoAnalysis("256", cutradius, 20);  // 1.0deg
-  DoAnalysis("257", cutradius, 20);  // 0.5deg
-  DoAnalysis("258", cutradius, 20);  // 0.0deg
-  DoAnalysis("266", cutradius, 20);  // -2.0deg
-  DoAnalysis("269", cutradius, 20);  // -5.0deg
+  DoAnalysis("255", cutradius, 20, isMC);  // 5.0deg
+  DoAnalysis("254", cutradius, 20, isMC);  // 4.0deg
+  DoAnalysis("253", cutradius, 20, isMC);  // 3.0deg
+  DoAnalysis("252", cutradius, 20, isMC);  // 2.0deg
+  DoAnalysis("251", cutradius, 20, isMC);  // 1.5deg
+  DoAnalysis("256", cutradius, 20, isMC);  // 1.0deg
+  DoAnalysis("257", cutradius, 20, isMC);  // 0.5deg
+  DoAnalysis("258", cutradius, 20, isMC);  // 0.0deg
+  DoAnalysis("266", cutradius, 20, isMC);  // -2.0deg
+  DoAnalysis("269", cutradius, 20, isMC);  // -5.0deg
 }
 
-void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
+void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC)
 {
   // Input file
   std::string pathFile = "recoNtuple/physics_sps2023_run" + RunNo + ".root";
@@ -132,8 +133,10 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene)
     totS = 0.;
     totC = 0.;
 
-    // Select positrons
-    if (!(utils::IsPositronPsMu(pevtout->PShower, pevtout->MCounter))) continue;
+    // Select positrons (avoid if MC data)
+    if(!isMC){
+      if (!(utils::IsPositronPsMu(pevtout->PShower, pevtout->MCounter))) continue;
+    }
     cutentries += 1;
 
     for (const auto& n : pevtout->SiPMPheS) {
