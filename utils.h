@@ -26,6 +26,15 @@ bool IsPositronPsMu(const double& PreShower, const double& MuonTrk)
     return false;
 }
 
+// Return true is PreShower is above cut value
+bool IsPsAboveCut(const double& PreShower, const double& cut)
+{
+  if (PreShower > cut)
+    return true;
+  else
+    return false;
+}
+
 // Return true for pi+ using PreShower and MuonCounter only
 bool IsPionPsMu(const double& PreShower, const double& MuonTrk)
 {
@@ -130,6 +139,19 @@ bool IsDWCradius(double pos[2], const double& radiuscut, const std::array<double
   newpos[0] = pos[0] + offset[0];
   newpos[1] = pos[1] + offset[1];
   double radius = std::sqrt(pow(newpos[0], 2.) + pow(newpos[1], 2.));
+
+#ifdef DEBUG
+  std::cout << "DWC"
+            << " radius " << radius << " mm." << std::endl;
+#endif
+
+  return (radius < radiuscut) ? true : false;
+}
+
+// Return true if event is in DWC radius, no offset expected
+bool IsDWCradius(double pos[2], const double& radiuscut)
+{
+  double radius = std::sqrt(pow(pos[0], 2.) + pow(pos[1], 2.));
 
 #ifdef DEBUG
   std::cout << "DWC"
