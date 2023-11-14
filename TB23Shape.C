@@ -6,8 +6,7 @@
 // \start date: 24 July 2023
 //**************************************************
 
-// Usage: root TB23Shape.C (same as root 'TB23Shape.C(false)')
-//    or: root 'TB23Shape.C(true)'
+// Usage: root TB23Shape.C
 #include "PhysicsEvent.h"
 #include "utils.h"
 #include <TFile.h>
@@ -16,7 +15,6 @@
 #include <TVector2.h>
 #include <stdint.h>
 #include <string.h>
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -24,44 +22,93 @@
 
 ClassImp(EventOut);
 
-void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC);
+void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC=false);
 
-void TB23Shape(const bool isMC=false)
+void TB23Shape()
 {
-  std::cout<<"running with isMC="<<isMC<<std::endl;
   const double cutradius = 5.0;  // mm
+  //Test-beam data
+  //
 
   // Energy scan e+ 2.5deg vertical, 1.5deg orizoonthal, PShower in
-  /*DoAnalysis("185", cutradius, 20);
+  /*DoAnalysis("191", cutradius, 10); // x=-4.1 mm, y=1170 mm
+  DoAnalysis("185", cutradius, 20);
+  DoAnalysis("193", cutradius, 30);
   DoAnalysis("186", cutradius, 40);
+  DoAnalysis("192", cutradius, 50);
   DoAnalysis("187", cutradius, 60);
   DoAnalysis("188", cutradius, 80);
-  DoAnalysis("189", cutradius, 100);*/
+  DoAnalysis("189", cutradius, 100);
+  DoAnalysis("190", cutradius, 120);*/
 
-  // Angular scan 20 GeV e+ 2.5deg vertical
-  /*DoAnalysis("114", cutradius, 20);
-  DoAnalysis("112", cutradius, 20);
-  DoAnalysis("119", cutradius, 20);
-  DoAnalysis("120", cutradius, 20);
-  DoAnalysis("122", cutradius, 20);*/
+  // Angular scan 20 GeV e+ 2.5deg vertical, y=-1170 mm
+  /*DoAnalysis("114", cutradius, 20); // 4.5 deg 
+  DoAnalysis("112", cutradius, 20);   // 3.5 deg
+  DoAnalysis("119", cutradius, 20);   // 2.0 deg
+  DoAnalysis("120", cutradius, 20);   // 1.5 deg
+  DoAnalysis("122", cutradius, 20);   // 1.0 deg
+  DoAnalysis("123", cutradius, 20);   // 0.5 deg
+  DoAnalysis("126", cutradius, 20);   // 0.0 deg
+  DoAnalysis("127", cutradius, 20);   // -0.5 deg
+  DoAnalysis("129", cutradius, 20);   // -1.0 deg
+  DoAnalysis("130", cutradius, 20);   // -2.5 deg*/
 
-  // Angular scan 20 GeV e+ 0.0deg vertical
-  DoAnalysis("255", cutradius, 20, isMC);  // 5.0deg
-  DoAnalysis("254", cutradius, 20, isMC);  // 4.0deg
-  DoAnalysis("253", cutradius, 20, isMC);  // 3.0deg
-  DoAnalysis("252", cutradius, 20, isMC);  // 2.0deg
-  DoAnalysis("251", cutradius, 20, isMC);  // 1.5deg
-  DoAnalysis("256", cutradius, 20, isMC);  // 1.0deg
-  DoAnalysis("257", cutradius, 20, isMC);  // 0.5deg
-  DoAnalysis("258", cutradius, 20, isMC);  // 0.0deg
-  DoAnalysis("266", cutradius, 20, isMC);  // -2.0deg
-  DoAnalysis("269", cutradius, 20, isMC);  // -5.0deg
+  // Angular scan 20 GeV e+ 0.0deg vertical y=1176 mm
+  /*DoAnalysis("255", cutradius, 20);  // 5.0deg, x=-40.7 mm
+  DoAnalysis("254", cutradius, 20);  // 4.0deg, x=-32.2 mm
+  DoAnalysis("253", cutradius, 20);  // 3.0deg, x=-23.4 mm
+  DoAnalysis("252", cutradius, 20);  // 2.0deg, x=-14.7 mm
+  DoAnalysis("251", cutradius, 20);  // 1.5deg, x=-10.2 mm
+  DoAnalysis("256", cutradius, 20);  // 1.0deg, x=-8.1 mm
+  DoAnalysis("257", cutradius, 20);  // 0.5deg, x=-4.1 mm
+  DoAnalysis("258", cutradius, 20);  // 0.0deg, x=0.1 mm
+  DoAnalysis("266", cutradius, 20);  // -2.0deg, x=10.1 mm
+  DoAnalysis("269", cutradius, 20);  // -5.0deg, x=29.1 mm*/
+
+  //Comparison with and without preshower
+  //vertical 2.5 deg, horiz 2.5 deg
+  //(remember to remove preshower cut in analysis)
+  /*DoAnalysis("102", cutradius, 20);  // preshower in
+  DoAnalysis("163", cutradius, 20);  // preshower off 
+  DoAnalysis("105", cutradius, 40);  // preshower in
+  DoAnalysis("164", cutradius, 40);  // preshower off
+  DoAnalysis("107", cutradius, 60);  // preshower in
+  DoAnalysis("165", cutradius, 60);  // prehoser off*/
+
+  // Simulated data
+  //
+  const bool isMC = true;
+  //preliminary tests at vert angle 0.0
+  /*DoAnalysis("0", cutradius, 20, isMC); // 0.0deg
+  DoAnalysis("1", cutradius, 20, isMC); // 0.5deg
+  DoAnalysis("2", cutradius, 20, isMC); // 1.0deg
+  DoAnalysis("3", cutradius, 20, isMC); // 1.4deg
+  DoAnalysis("4", cutradius, 20, isMC); // 1.8deg
+  DoAnalysis("5", cutradius, 20, isMC); // -1.0deg
+  DoAnalysis("6", cutradius, 20, isMC); // -1.8deg
+  DoAnalysis("7", cutradius, 20, isMC); // -1.8deg, new seeds
+  DoAnalysis("8", cutradius, 20, isMC); // -1.8deg, no attenuation
+  DoAnalysis("9", cutradius, 20, isMC); // -1.8deg, 1.0 beam radius
+  DoAnalysis("10", cutradius, 20, isMC);// -1.8deg, x-8mmy0, 1.0 beam radius*/
+ 
+  //runcards_angscan, vert ang 0.0
+  //DoAnalysis("11", cutradius, 20, isMC); //card1, 0.0deg, x0.1mmy0
+  DoAnalysis("12", cutradius, 20, isMC); //card2, 0.5deg, x0.1mmy0
+  //DoAnalysis("13", cutradius, 20, isMC); //card3, 0.5deg, x-0.1mmy0
+  //DoAnalysis("14", cutradius, 20, isMC); //card4, -0.5deg, x0mmy0
+  //DoAnalysis("15", cutradius, 20, isMC); //card5, -0.5deg, x-1.7mmy-1.6mm
+  //DoAnalysis("16", cutradius, 20, isMC); //card6, -0.5deg, x-2.0mmy1.6mm
+  //DoAnalysis("17", cutradius, 20, isMC); //card7, -0.7deg, x-2.0mmy1.6mm
+  //DoAnalysis("18", cutradius, 20, isMC); //card8, -1.0deg, x-3.0mmy1.6mm
+  //DoAnalysis("19", cutradius, 20, isMC); //card9, -1.0deg, x-4.5mmy1.6mm
 }
 
-void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC)
+void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC=false)
 {
   // Input file
-  std::string pathFile = "recoNtuple/physics_sps2023_run" + RunNo + ".root";
+  std::string pathFile{};
+  if(!isMC){ pathFile = "recoNtuple/physics_sps2023_run" + RunNo + ".root";}
+  else { pathFile = "simNtuple/physics_sps2023_run" + RunNo + ".root";}
   std::cout << "Using file: " << pathFile << std::endl;
 
   TFile file{pathFile.c_str()};
@@ -123,8 +170,11 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
   double totC = 0.;  // total event SiPM C signal
 
   // SiPMs barycenter plots
-  TH2F H2SiPMSbar{"SiPMSbar", "SiPMSbar", 400, -20., 40., 400, -20, 40};
-  TH2F H2SiPMCbar{"SiPMCbar", "SiPMcbar", 400, -20., 40., 400, -20, 40};
+  TH2F H2SiPMSbar{"SiPMSbar", "SiPMSbar", 200, -20., 40., 200, -20, 40};
+  TH2F H2SiPMCbar{"SiPMCbar", "SiPMcbar", 200, -20., 40., 200, -20, 40};
+  // DWC plots
+  TH2F H2DWC1{"DWC1", "DWC1", 400, -20., 20., 400, -20, 20};
+  TH2F H2DWC2{"DWC2", "DWC2", 400, -20., 20., 400, -20, 20};
 
   // Loop over events
   for (unsigned int i = 0; i < tree->GetEntries(); i++) {
@@ -137,7 +187,17 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
     if(!isMC){
       if (!(utils::IsPositronPsMu(pevtout->PShower, pevtout->MCounter))) continue;
     }
+
+    // Get DWC info and cut over DWC radius
+    double DWC1pos[2] = {pevtout->XDWC1, pevtout->YDWC1};
+    double DWC2pos[2] = {pevtout->XDWC2, pevtout->YDWC2};
+    if(!(utils::IsDWCradius(DWC1pos,cutradius))) continue;
+    if(!(utils::IsDWCradius(DWC2pos,cutradius))) continue;
+
     cutentries += 1;
+
+    H2DWC1.Fill(pevtout->XDWC1, pevtout->YDWC1);
+    H2DWC2.Fill(pevtout->XDWC2, pevtout->YDWC2);
 
     for (const auto& n : pevtout->SiPMPheS) {
       totS += n;
@@ -202,6 +262,8 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
   // Write auxiliary detectors plots
   H2SiPMSbar.Write();
   H2SiPMCbar.Write();
+  H2DWC1.Write();
+  H2DWC2.Write();
 
   // Finalize H2 scatter plots
   Slateralh2.GetXaxis()->SetTitle("Distance from shower axis [mm]");
