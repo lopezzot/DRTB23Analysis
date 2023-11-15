@@ -187,6 +187,9 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
     if(!isMC){
       if (!(utils::IsPositronPsMu(pevtout->PShower, pevtout->MCounter))) continue;
     }
+    if(isMC){
+      if (!(utils::IsPsAboveCut(pevtout->PShower, 5))) continue;
+    }
 
     // Get DWC info and cut over DWC radius
     double DWC1pos[2] = {pevtout->XDWC1, pevtout->YDWC1};
@@ -416,6 +419,7 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
   C1cumulatives.Write();
 
   analysisFile->Close();
+  exit(0);
 }
 
 //**************************************************
