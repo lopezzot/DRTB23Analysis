@@ -15,10 +15,22 @@
 namespace utils
 {
 
+// Return true for preshower values aroung 8000
+bool IsPSUltraHigh(const double& PreShower)
+{
+  //in the 2023 test-beam data there are few events with
+  //preshower values aroung 8000.
+  //It seems a software artifact, so I remove them
+  if (PreShower > 7000.)
+    return true;
+  else
+    return false;
+}
+
 // Return true for e+ using PreShower and MuonCounter only
 bool IsPositronPsMu(const double& PreShower, const double& MuonTrk)
 {
-  const int PScut = 1500;
+  const int PScut = 700;
   const int MuonTrkcut = 200;
   if (PreShower > PScut && MuonTrk < MuonTrkcut)
     return true;
