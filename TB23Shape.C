@@ -1,4 +1,4 @@
-//*************************************************
+//**************************************************
 // \file TB23Shape.C
 // \brief: em shower shape analysis
 // \author: Lorenzo Pezzotti (CERN EP-SFT-sim)
@@ -26,35 +26,35 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
 
 void TB23Shape()
 {
-  const double cutradius = 5.0;  // mm
+  const double cutradius = 10.0;  // mm
   //Test-beam data
   //
 
   // Energy scan e+ 2.5deg vertical, 1.5deg orizoonthal, PShower in
-  /*DoAnalysis("191", cutradius, 10); // x=-4.1 mm, y=1170 mm
+  //DoAnalysis("191", cutradius, 10); // x=-4.1 mm, y=1170 mm
   DoAnalysis("185", cutradius, 20);
-  DoAnalysis("193", cutradius, 30);
-  DoAnalysis("186", cutradius, 40);
+  //DoAnalysis("193", cutradius, 30);
+  //DoAnalysis("186", cutradius, 40);
   DoAnalysis("192", cutradius, 50);
-  DoAnalysis("187", cutradius, 60);
+  //DoAnalysis("187", cutradius, 60);
   DoAnalysis("188", cutradius, 80);
-  DoAnalysis("189", cutradius, 100);
-  DoAnalysis("190", cutradius, 120);*/
+  //DoAnalysis("189", cutradius, 100);
+  //DoAnalysis("190", cutradius, 120);
 
   // Angular scan 20 GeV e+ 2.5deg vertical, y=-1170 mm
-  /*DoAnalysis("114", cutradius, 20); // 4.5 deg 
-  DoAnalysis("112", cutradius, 20);   // 3.5 deg
-  DoAnalysis("119", cutradius, 20);   // 2.0 deg
-  DoAnalysis("120", cutradius, 20);   // 1.5 deg
-  DoAnalysis("122", cutradius, 20);   // 1.0 deg
-  DoAnalysis("123", cutradius, 20);   // 0.5 deg
+  //DoAnalysis("114", cutradius, 20); // 4.5 deg 
+  //DoAnalysis("112", cutradius, 20);   // 3.5 deg
+  //DoAnalysis("119", cutradius, 20);   // 2.0 deg
+  //DoAnalysis("120", cutradius, 20);   // 1.5 deg
+  //DoAnalysis("122", cutradius, 20);   // 1.0 deg
+  //DoAnalysis("123", cutradius, 20);   // 0.5 deg
   DoAnalysis("126", cutradius, 20);   // 0.0 deg
-  DoAnalysis("127", cutradius, 20);   // -0.5 deg
-  DoAnalysis("129", cutradius, 20);   // -1.0 deg
-  DoAnalysis("130", cutradius, 20);   // -2.5 deg*/
+  //DoAnalysis("127", cutradius, 20);   // -0.5 deg
+  //DoAnalysis("129", cutradius, 20);   // -1.0 deg
+  //DoAnalysis("130", cutradius, 20);   // -2.5 deg
 
   // Angular scan 20 GeV e+ 0.0deg vertical y=1176 mm
-  /*DoAnalysis("255", cutradius, 20);  // 5.0deg, x=-40.7 mm
+  //DoAnalysis("255", cutradius, 20);  // 5.0deg, x=-40.7 mm
   DoAnalysis("254", cutradius, 20);  // 4.0deg, x=-32.2 mm
   DoAnalysis("253", cutradius, 20);  // 3.0deg, x=-23.4 mm
   DoAnalysis("252", cutradius, 20);  // 2.0deg, x=-14.7 mm
@@ -62,7 +62,7 @@ void TB23Shape()
   DoAnalysis("256", cutradius, 20);  // 1.0deg, x=-8.1 mm
   DoAnalysis("257", cutradius, 20);  // 0.5deg, x=-4.1 mm
   DoAnalysis("258", cutradius, 20);  // 0.0deg, x=0.1 mm
-  DoAnalysis("266", cutradius, 20);  // -2.0deg, x=10.1 mm
+  /*DoAnalysis("266", cutradius, 20);  // -2.0deg, x=10.1 mm
   DoAnalysis("269", cutradius, 20);  // -5.0deg, x=29.1 mm*/
 
   //Comparison with and without preshower
@@ -93,7 +93,7 @@ void TB23Shape()
  
   //runcards_angscan, vert ang 0.0
   //DoAnalysis("11", cutradius, 20, isMC); //card1, 0.0deg, x0.1mmy0
-  DoAnalysis("12", cutradius, 20, isMC); //card2, 0.5deg, x0.1mmy0
+  //DoAnalysis("12", cutradius, 20, isMC); //card2, 0.5deg, x0.1mmy0
   //DoAnalysis("13", cutradius, 20, isMC); //card3, 0.5deg, x-0.1mmy0
   //DoAnalysis("14", cutradius, 20, isMC); //card4, -0.5deg, x0mmy0
   //DoAnalysis("15", cutradius, 20, isMC); //card5, -0.5deg, x-1.7mmy-1.6mm
@@ -101,6 +101,76 @@ void TB23Shape()
   //DoAnalysis("17", cutradius, 20, isMC); //card7, -0.7deg, x-2.0mmy1.6mm
   //DoAnalysis("18", cutradius, 20, isMC); //card8, -1.0deg, x-3.0mmy1.6mm
   //DoAnalysis("19", cutradius, 20, isMC); //card9, -1.0deg, x-4.5mmy1.6mm
+
+  //runcards_angscan, vert ang 0.0
+  //DoAnalysis("20", cutradius, 20, isMC); //card10, 0.0 deg, x0y0 mm
+  //DoAnalysis("21", cutradius, 20, isMC); //card11, -0.5 deg, x0y0 mm
+  //DoAnalysis("22", cutradius, 20, isMC); //card12, -0.5 deg, x2.0y0 mm
+  //DoAnalysis("23", cutradius, 20, isMC); //card13, -0.5 deg, x2.0y0 mm, g4cut 0.1 mm
+  //DoAnalysis("24", cutradius, 20, isMC); //card12, -0.5 deg, x2.0y0 mm, FTFP_BERT_EMZ
+  //DoAnalysis("25", cutradius, 20, isMC); //card14, -0.5 deg, x-4.0y-1.3 mm, FTFP_BERT_EMZ
+  //DoAnalysis("26", cutradius, 20, isMC); //card15, -0.5 deg, x-5.2y1.3 mm, FTFP_BERT_EMZ
+  //DoAnalysis("27", cutradius, 20, isMC); //card16, -0.5 deg, x-5.2y1.3 mm, 1.0 deg ang
+  //DoAnalysis("28", cutradius, 20, isMC); //card16, -0.5 deg, x-5.2y1.3 mm, 0.1 deg ang (using particlegun)
+  //DoAnalysis("29", cutradius, 20, isMC); //card17, -0.5 deg, x-5.2y1.3 mm, 2 deg gps ang smearing
+  //DoAnalysis("30", cutradius, 20, isMC); //card18, -0.5 deg, x-5.2y1.3 mm, 0.5 deg gps ang smearing
+  //DoAnalysis("31", cutradius, 20, isMC); //card19, -0.5 deg, x-5.2y1.3 mm, 0.3 deg gps ang smearing
+  //DoAnalysis("32", cutradius, 20, isMC); //card20, -0.5 deg, x-5.2y1.3 mm, 0.1 deg gps ang smearing
+  //DoAnalysis("33", cutradius, 20, isMC); //card21, -0.5 deg, x-5.2y1.3 mm, 0.5 deg gps ang smearing, 0.0 radius
+  //DoAnalysis("34", cutradius, 20, isMC); //card21, -0.5 deg, x-5.2y1.3 mm, 0.5 deg gps ang smearing, 0.0 radius, EMZ
+  //DoAnalysis("35", cutradius, 20, isMC); //card22, -0.5 deg, x-5.2y1.3 mm, 0.5 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("36", cutradius, 20, isMC); //card23, -0.5 deg, x-5.2y1.3 mm, 0.3 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("37", cutradius, 20, isMC); //card24, -0.5 deg, x-5.2y1.3 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("38", cutradius, 20, isMC); //card25, -0.5 deg, x-7.458y1.954 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("39", cutradius, 20, isMC); //card26, -0.5 deg, x-2.942y1.954 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("40", cutradius, 20, isMC); //card27, -0.6 deg, x-2.942y1.954 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("51", cutradius, 20, isMC); //card12
+  //DoAnalysis("52", cutradius, 20, isMC); //card27
+  //DoAnalysis("53", cutradius, 20, isMC); //card12_2, new random seeds
+  //DoAnalysis("54", cutradius, 20, isMC); //card12_3, new random seeds
+  //DoAnalysis("55", cutradius, 20, isMC); //card38, -0.5 deg, x-3.0y1.7 mm
+  //DoAnalysis("56", cutradius, 20, isMC); //card39, -0.7 deg, x-3.0y1.7 mm
+  //DoAnalysis("57", cutradius, 20, isMC); //card40, -0.9 deg, x-3.0y1.7 mm
+  //DoAnalysis("58", cutradius, 20, isMC); //card40, -0.9 deg, x-3.0y1.7 mm, EMZ
+  //DoAnalysis("59", cutradius, 20, isMC); //card41, -1.4 deg, x-3.0y1.7 mm
+  //DoAnalysis("60", cutradius, 20, isMC); //card42, -0.7 deg, x-3.0y1.7 mm, 0.1 deg
+  //DoAnalysis("61", cutradius, 20, isMC); //card43, -0.7 deg, x-3.0y1.7 mm, 0.1 deg, cut 0.1 mm
+  DoAnalysis("62", cutradius, 20, isMC); //card44, -0.7 deg, x-3.0y1.7 mm, 0.1 deg
+  DoAnalysis("63", cutradius, 20, isMC); //card44, -0.7 deg, x-3.0y1.7 mm, 0.1 deg, 20k events
+  DoAnalysis("64", cutradius, 20, isMC); //card45, -0.7 deg, x-3.0y1.7 mm, 0.0 deg
+  DoAnalysis("65", cutradius, 20, isMC); //card46, -0.7 deg, x0.0y0.0 mm, 0.0 deg
+  DoAnalysis("66", cutradius, 20, isMC); //card47, -0.7 deg, 0.3 deg, x0.0y0.0 mm, 0.0 deg
+  DoAnalysis("67", cutradius, 20, isMC); //card48, -0.7 deg, 0.3 deg, x0.0y0.0 mm, 0.1 deg
+  DoAnalysis("68", cutradius, 20, isMC); //card49, -0.7 deg, 0.5 deg, x0.0y0.0 mm, 0.1 deg
+  DoAnalysis("69", cutradius, 20, isMC); //card50, -0.7 deg, 0.5 deg, x-0.6y0.0 mm, 0.1 deg
+  DoAnalysis("70", cutradius, 20, isMC); //card51, -0.7 deg, 0.5 deg, x-1.6y0.0 mm, 0.1 deg
+  DoAnalysis("71", cutradius, 20, isMC); //card51, -0.7 deg, 0.5 deg, x-1.6y0.0 mm, 0.1 deg, EMZ
+  DoAnalysis("72", cutradius, 20, isMC); //card52, -0.7 deg, 0.5 deg, x-1.6y0.0 mm, 0.1 deg, EMZ 0.1 mm cut
+  DoAnalysis("73", cutradius, 20, isMC); //card53, -1.0 deg, 0.0 deg, x0.0y0.0 mm, 0.0 deg, EMZ
+  DoAnalysis("74", cutradius, 20, isMC); //card54, 0.0 deg, 0.0 deg, x0.0y0.0 mm, 0.0 deg, EMZ
+  DoAnalysis("75", cutradius, 20, isMC); //card55, -2.0 deg, 0.0 deg, x0.0y0.0 mm, 0.0 deg
+  DoAnalysis("76", cutradius, 20, isMC); //card56, -3.0 deg, 0.0 deg, x-14.7y0.0 mm, 0.0 deg
+  DoAnalysis("77", cutradius, 20, isMC); //card57, -4.0 deg, 0.0 deg, x-23.4y0.0 mm, 0.0 deg
+  DoAnalysis("78", cutradius, 20, isMC); //card58, -4.0 deg, 0.0 deg, x-32.2y0.0 mm, 0.0 deg (do not use)
+  DoAnalysis("79", cutradius, 20, isMC); //card59, -3.0 deg, 0.0 deg, x-23.4y0.0 mm, 0.0 deg
+  DoAnalysis("80", cutradius, 20, isMC); //card60, -3.0 deg, 0.0 deg, x-18.0y0.0 mm, 0.0 deg
+  DoAnalysis("81", cutradius, 20, isMC); //card61, -2.0 deg, 0.0 deg, x-10.0y0.0 mm, 0.0 deg
+  DoAnalysis("82", cutradius, 20, isMC); //card62, -1.0 deg, 0.0 deg, x-4.0y0.0 mm, 0.0 deg
+  DoAnalysis("83", cutradius, 20, isMC); //card63, -0.1 deg, 0.0 deg, x0.0y0.0 mm, 0.0 deg
+  
+  //runcards_angscan, vert ang 2.5
+  //DoAnalysis("41", cutradius, 20, isMC); //card28, -0.5 deg, x-2.942y1.954 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("42", cutradius, 20, isMC); //card29, -0.5 deg, x-2.942y-2.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("43", cutradius, 20, isMC); //card30, -0.5 deg, x-2.942y-4.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("44", cutradius, 20, isMC); //card31, -0.5 deg, x-2.942y-4.0 mm, 0.2 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("45", cutradius, 20, isMC); //card32, -0.7 deg, x-2.942y-4.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("46", cutradius, 20, isMC); //card33, -1.0 deg, x-2.942y-4.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("47", cutradius, 20, isMC); //card34, -1.0 deg, x-6.942y-4.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("48", cutradius, 20, isMC); //card35, -1.0 deg, x-8.942y-4.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("49", cutradius, 20, isMC); //card36, -1.0 deg, x-12.942y-4.0 mm, 0.1 deg gps ang smearing, 0.5 radius
+  //DoAnalysis("50", cutradius, 20, isMC); //card36, -1.0 deg, x-12.942y-4.0 mm, 0.0 deg gps ang smearing, 0.5 radius
+  
+  exit(0);
 }
 
 void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene, const bool isMC=false)
@@ -175,6 +245,14 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
   // DWC plots
   TH2F H2DWC1{"DWC1", "DWC1", 400, -20., 20., 400, -20, 20};
   TH2F H2DWC2{"DWC2", "DWC2", 400, -20., 20., 400, -20, 20};
+  // DWC vs SiPM barycenter plots
+  TH2F H2X{"X_s","X_s",400,-20.,-20.,400,-20.,20};
+  TH2F H2Y{"Y_s","Y_s",400,-20.,-20.,400,-20.,20};
+  TH2F H2XC{"X_c","X_c",400,-20.,-20.,400,-20.,20};
+  TH2F H2YC{"Y_c","Y_c",400,-20.,-20.,400,-20.,20};
+  // SiPM total energy
+  TH1F H1SiPMS{"SiPMS","SiPMS",100,0.,beamene*1.3};
+  TH1F H1SiPMC{"SiPMC","SiPMC",100,0.,beamene*1.3};
 
   // Loop over events
   for (unsigned int i = 0; i < tree->GetEntries(); i++) {
@@ -186,9 +264,11 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
     // Select positrons (avoid if MC data)
     if(!isMC){
       if (!(utils::IsPositronPsMu(pevtout->PShower, pevtout->MCounter))) continue;
+      //remove events with ultra high preshower values (8000)
+      if (utils::IsPSUltraHigh(pevtout->PShower)) continue;
     }
     if(isMC){
-      if (!(utils::IsPsAboveCut(pevtout->PShower, 5))) continue;
+      if (!(utils::IsPsAboveCut(pevtout->PShower, 3.))) continue;
     }
 
     // Get DWC info and cut over DWC radius
@@ -197,10 +277,10 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
     if(!(utils::IsDWCradius(DWC1pos,cutradius))) continue;
     if(!(utils::IsDWCradius(DWC2pos,cutradius))) continue;
 
-    cutentries += 1;
-
-    H2DWC1.Fill(pevtout->XDWC1, pevtout->YDWC1);
-    H2DWC2.Fill(pevtout->XDWC2, pevtout->YDWC2);
+    // Get Scin and Cher barycenter and cut over radius
+    auto sbar = utils::GetScinbar(pevtout->SiPMPheS);
+    auto cbar = utils::GetCherbar(pevtout->SiPMPheC);
+    if(!(utils::IsDWCradius(sbar,10.0))) continue;
 
     for (const auto& n : pevtout->SiPMPheS) {
       totS += n;
@@ -208,10 +288,21 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
     for (const auto& n : pevtout->SiPMPheC) {
       totC += n;
     }
-    auto sbar = utils::GetScinbar(pevtout->SiPMPheS);
-    auto cbar = utils::GetCherbar(pevtout->SiPMPheC);
+    if ( totS<beamene*0.5 || totC<beamene*0.5 ) continue;
+
+    cutentries += 1;
+
+    H1SiPMS.Fill(std::accumulate(pevtout->SiPMPheS, pevtout->SiPMPheS+160,0.));
+    H1SiPMC.Fill(std::accumulate(pevtout->SiPMPheC, pevtout->SiPMPheC+160,0.));
+    H2DWC1.Fill(pevtout->XDWC1, pevtout->YDWC1);
+    H2DWC2.Fill(pevtout->XDWC2, pevtout->YDWC2);
+
     H2SiPMSbar.Fill(sbar[0], sbar[1]);
     H2SiPMCbar.Fill(cbar[0], cbar[1]);
+    H2X.Fill(pevtout->XDWC1,sbar[0]);
+    H2Y.Fill(pevtout->YDWC1,sbar[1]);
+    H2XC.Fill(pevtout->XDWC1,cbar[0]);
+    H2YC.Fill(pevtout->YDWC1,cbar[1]);
 
     // Loop over SiPMs
     for (unsigned int index = 0; index < 160; index++) {
@@ -267,6 +358,12 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
   H2SiPMCbar.Write();
   H2DWC1.Write();
   H2DWC2.Write();
+  H2X.Write();
+  H2Y.Write();
+  H2XC.Write();
+  H2YC.Write();
+  H1SiPMS.Write();
+  H1SiPMC.Write();
 
   // Finalize H2 scatter plots
   Slateralh2.GetXaxis()->SetTitle("Distance from shower axis [mm]");
@@ -419,7 +516,6 @@ void DoAnalysis(const string RunNo, const double& cutradius, const int& beamene,
   C1cumulatives.Write();
 
   analysisFile->Close();
-  exit(0);
 }
 
 //**************************************************
