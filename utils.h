@@ -18,9 +18,9 @@ namespace utils
 // Return true for preshower values aroung 8000
 bool IsPSUltraHigh(const double& PreShower)
 {
-  //in the 2023 test-beam data there are few events with
-  //preshower values aroung 8000.
-  //It seems a software artifact, so I remove them
+  // in the 2023 test-beam data there are few events with
+  // preshower values aroung 8000.
+  // It seems a software artifact, so I remove them
   if (PreShower > 7000.)
     return true;
   else
@@ -50,9 +50,9 @@ bool IsPsAboveCut(const double& PreShower, const double& cut)
 // Return true for pi+ using PreShower and MuonCounter only
 bool IsPionPsMu(const double& PreShower, const double& MuonTrk)
 {
-  const int PScut = 1000;
+  const int PScut = 700;
   const int PSpedestalcut = 500;
-  const int MuonTrkcut = 300;
+  const int MuonTrkcut = 200;
   if (PreShower > PSpedestalcut && PreShower < PScut && MuonTrk < MuonTrkcut)
     return true;
   else
@@ -60,9 +60,9 @@ bool IsPionPsMu(const double& PreShower, const double& MuonTrk)
 }
 
 // Returns true if pion has interacted in the central tower (dummy right now)
-bool HasPionInteracted(const double& SSiPMenergy, const double& Pionenergy)
+bool HasPionInteracted(const double& Senergy, const double& Pioncutenergy)
 {
-  return (SSiPMenergy > (0.2 * Pionenergy)) ? true : false;
+  return (Senergy > Pioncutenergy) ? true : false;
 }
 
 // Return SiPM S position from index
