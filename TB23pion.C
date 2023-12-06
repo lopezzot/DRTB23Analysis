@@ -528,9 +528,6 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy, cons
     }
     double DWC1pos[2] = {pevtout->XDWC1, pevtout->YDWC1};
     double DWC2pos[2] = {pevtout->XDWC2, pevtout->YDWC2};
-    // if (!(utils::IsDWCradius(DWC1pos, 10.0, GetDWCoffset(1)))) continue;  // cut out-of-radius
-    // DWC1 if (!(utils::IsDWCradius(DWC2pos, 10.0, GetDWCoffset(2)))) continue;  // cut
-    // out-of-radius DWC2
     if (!(utils::IsDWCradius(DWC1pos, 10.0))) continue;
     if (!(utils::IsDWCradius(DWC2pos, 10.0))) continue;
     // cut events with non-interacting pions
