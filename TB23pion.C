@@ -531,7 +531,8 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy, cons
     if (!(utils::IsDWCradius(DWC1pos, 10.0))) continue;
     if (!(utils::IsDWCradius(DWC2pos, 10.0))) continue;
     // cut events with non-interacting pions
-    if (!(utils::HasPionInteracted(pevtout->totSiPMSene + pevtout->SPMTenergy, 4.0))) continue;
+    if (!(utils::HasPionInteracted(pevtout->totSiPMSene, 3.0))) continue;
+    if (!(utils::HasPionInteracted(pevtout->totSiPMSene + pevtout->SPMTenergy, 5.0))) continue;
 
     evtcounter++;
     // fill histos of this run
