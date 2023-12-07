@@ -34,6 +34,19 @@ outputAnalysis DoAnalysis(TTree* tree, const int& runno, const int& energy,
                           const bool isMC = false);
 void CompareHistos(TFile* CompareFile);
 
+// const std::array<int, 2> G4runNumbers{84, 85}; // horiz=-0.5deg, x0y0 mm
+// const std::array<int, 2> G4runNumbers{87, 86}; // with noise, horiz=-0.5deg, x0y0 mm
+// const std::array<int, 2> G4runNumbers{90, 89}; //with noise, horiz=-0.5 deg, x=-5.0y0 mm
+// const std::array<int, 2> G4runNumbers{91, 92}; //with noise, horiz=-0.7 deg, x=0y0 mm
+// const std::array<int, 2> G4runNumbers{94, 93}; //with noise, horiz=-0.3 deg, x=0y0 mm
+// const std::array<int, 2> G4runNumbers{96, 95}; //with noise, horiz=-0.5 deg, x=3.0y0 mm
+// new converter
+// const std::array<int, 2> G4runNumbers{97, 98}; //with noise, horiz=-0.5 deg, x=-2.0y0 mm
+// const std::array<int, 2> G4runNumbers{99, 100}; //with noise, horiz=-0.5 deg, x=-5.0y0 mm
+// const std::array<int, 2> G4runNumbers{101, 102}; //with noise, horiz=-0.5 deg, x=-5.0y2.0 mm
+// const std::array<int, 2> G4runNumbers{103, 104}; //with noise, horiz=-0.5 deg, x=-5.0y2.0 mm, // kbirk*3
+const std::array<int, 4> G4runNumbers{105, 106, 107, 108};  // with noise, horiz=-0.5 deg, x=-5.0y2.0 mm
+
 void TB23pion()
 {
   // run numbers for pi+ runs
@@ -113,20 +126,6 @@ void TB23pion()
   // using vertical angle 0.0 deg
   // using orizonthal angle -0.5 deg
   //
-  // const std::array<int, 2> G4runNumbers{84, 85}; // horiz=-0.5deg, x0y0 mm
-  // const std::array<int, 2> G4runNumbers{87, 86}; // with noise, horiz=-0.5deg, x0y0 mm
-  // const std::array<int, 2> G4runNumbers{90, 89}; //with noise, horiz=-0.5 deg, x=-5.0y0 mm
-  // const std::array<int, 2> G4runNumbers{91, 92}; //with noise, horiz=-0.7 deg, x=0y0 mm
-  // const std::array<int, 2> G4runNumbers{94, 93}; //with noise, horiz=-0.3 deg, x=0y0 mm
-  // const std::array<int, 2> G4runNumbers{96, 95}; //with noise, horiz=-0.5 deg, x=3.0y0 mm
-  // new converter
-  // const std::array<int, 2> G4runNumbers{97, 98}; //with noise, horiz=-0.5 deg, x=-2.0y0 mm
-  // const std::array<int, 2> G4runNumbers{99, 100}; //with noise, horiz=-0.5 deg, x=-5.0y0 mm
-  // const std::array<int, 2> G4runNumbers{101, 102}; //with noise, horiz=-0.5 deg, x=-5.0y2.0 mm
-  // const std::array<int, 2> G4runNumbers{103, 104}; //with noise, horiz=-0.5 deg, x=-5.0y2.0 mm,
-  // kbirk*3
-  const std::array<int, 4> G4runNumbers{105, 106, 107,
-                                        108};  // with noise, horiz=-0.5 deg, x=-5.0y2.0 mm
   // corresponding energies (GeV)
   const std::array<int, 4> G4energies{20, 60, 100, 180};
   // corresponding energies as doubles
@@ -231,7 +230,6 @@ void CompareHistos(TFile* ComparisonFile)
 {
   // TFile* ComparisonFile(TFile::Open("ComparisonPions.root", "RECREATE"));
   const std::array<int, 4> runNumbers{247, 246, 245, 244};  // experimental
-  const std::array<int, 4> G4runNumbers{105, 106, 107, 108};  // simulation
   const std::array<int, 4> energies{20, 60, 100, 180};
   const std::string filename{"AnalysispionRun_"};
   const std::string G4filename{"G4AnalysispionRun_"};
